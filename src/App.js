@@ -3,7 +3,7 @@ import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 
 const UIForList = props => {
-  const { title, authors, imageLinks, shelf, selected } = props;
+  const { title, authors, imageLinks, selected } = props;
 
   return (
     <li>
@@ -39,7 +39,9 @@ const UIForList = props => {
           </div>
         </div>
         <div className="book-title">{title}</div>
-        <div className="book-authors">{authors.map(a => <div>{a}</div>)}</div>
+        <div className="book-authors">
+          {authors.map((a, index) => <div key={index}>{a}</div>)}
+        </div>
       </div>
     </li>
   );
@@ -123,6 +125,7 @@ class BooksApp extends React.Component {
                                 wantToRead: false,
                                 read: false
                               }}
+                              key={book.id}
                             />
                           );
                         })}
@@ -144,6 +147,7 @@ class BooksApp extends React.Component {
                                 wantToRead: true,
                                 read: false
                               }}
+                              key={book.id}
                             />
                           );
                         })}
@@ -165,6 +169,7 @@ class BooksApp extends React.Component {
                                 wantToRead: false,
                                 read: true
                               }}
+                              key={book.id}
                             />
                           );
                         })}
