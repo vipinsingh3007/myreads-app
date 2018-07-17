@@ -3,7 +3,7 @@ import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 
 const UIForList = props => {
-  const { title, authors, imageLinks } = props;
+  const { title, authors, imageLinks, shelf, selected } = props;
 
   return (
     <li>
@@ -19,10 +19,21 @@ const UIForList = props => {
           />
           <div className="book-shelf-changer">
             <select>
-              <option value="move">Move to...</option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
+              <option value="move" disabled>
+                Move to...
+              </option>
+              <option
+                value="currentlyReading"
+                selected={selected.currentlyReading}
+              >
+                Currently Reading
+              </option>
+              <option value="wantToRead" selected={selected.wantToRead}>
+                Want to Read
+              </option>
+              <option value="read" selected={selected.read}>
+                Read
+              </option>
               <option value="none">None</option>
             </select>
           </div>
@@ -104,7 +115,16 @@ class BooksApp extends React.Component {
                           bd => bd.shelf.toLowerCase() === "currentlyreading"
                         )
                         .map(book => {
-                          return <UIForList {...book} />;
+                          return (
+                            <UIForList
+                              {...book}
+                              selected={{
+                                currentlyReading: true,
+                                wantToRead: false,
+                                read: false
+                              }}
+                            />
+                          );
                         })}
                     </ol>
                   </div>
@@ -116,7 +136,16 @@ class BooksApp extends React.Component {
                       {booksData
                         .filter(bd => bd.shelf.toLowerCase() === "wanttoread")
                         .map(book => {
-                          return <UIForList {...book} />;
+                          return (
+                            <UIForList
+                              {...book}
+                              selected={{
+                                currentlyReading: false,
+                                wantToRead: true,
+                                read: false
+                              }}
+                            />
+                          );
                         })}
                     </ol>
                   </div>
@@ -128,7 +157,16 @@ class BooksApp extends React.Component {
                       {booksData
                         .filter(bd => bd.shelf.toLowerCase() === "read")
                         .map(book => {
-                          return <UIForList {...book} />;
+                          return (
+                            <UIForList
+                              {...book}
+                              selected={{
+                                currentlyReading: false,
+                                wantToRead: false,
+                                read: true
+                              }}
+                            />
+                          );
                         })}
                     </ol>
                   </div>
